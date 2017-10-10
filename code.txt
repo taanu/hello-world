@@ -1,0 +1,647 @@
+#include<GL/glut.h>
+#include<math.h>
+GLfloat dy1=10,dx=10,dx1=15,dy2=50,dz=-10,d2,dx2=0,dx3=0,dx4=0;
+float ry=0.0,ry3=0.0,ry5=0.0;
+int flag=0;//for cloud color
+flag2=0,flag23=0,flag25=0,i;
+
+void rain()
+    {
+    float x,y;
+	glColor3f(1,1,1);
+
+	glBegin(GL_LINES);
+	for(y=0;y<=700;y+=rand()/200)
+	{
+	for(x=-600;x<=600;x+=rand()/300)
+	{
+		glVertex3f(x,y,0);
+		glVertex3f(x,y+5,0);
+	}
+}
+	glEnd();
+	glutPostRedisplay();
+}
+
+void light()
+{
+
+	glBegin(GL_POLYGON);
+    	glColor3f(1.0,0.843,0.0);
+    	glVertex3f(-130.0,160.0,50.0);
+    	glColor3f(1.0,1.0,0.0);
+		glVertex3f(-150.0,-50.0,50.0);
+		glVertex3f(-100.0,-50.0,50.0);
+		glColor3f(1.0,0.843,0.0);
+		glVertex3f(-125.0,160.0,50.0);
+	glEnd();
+
+}
+void IDLE()
+{  if(dx<=300)
+   dx += 0.08;
+else
+	dx=10;
+
+
+	if(dz<=250)
+    dz+=0.05;
+	else dz=-15;
+    if(ry>=-150)
+	{
+		if(ry<=-75)
+		{
+			flag2=flag2?1:0;
+   			ry=0;
+			}
+		ry-=5;
+	}
+glutPostRedisplay();
+}
+
+
+void boat()
+{
+  glColor3f(0.4,0.2,0.2);
+  glBegin(GL_POLYGON);
+  glVertex3f(-300.0,-150.0,30.0);
+  glVertex3f(-260.0,-150.0,30.0);
+  glVertex3f(-270.0,-160.0,30.0);
+  glVertex3f(-290.0,-160.0,30.0);
+  glEnd();
+glColor3f(0.0,0.0,0.0);
+  glBegin(GL_POLYGON);
+ glVertex3f(-270.0,-150.0,30.0);
+  glVertex3f(-265.0,-140.0,30.0);
+  glVertex3f(-270.0,-110.0,30.0);
+ glEnd();
+}
+
+void circle()
+{
+
+   int i,n=80;
+   GLfloat delta,theta=0, C[80][3],r = 10;
+   delta = (2 * M_PI) / n;
+   for(i=0;i<n;i++)
+   {
+
+         C[i][0] = r * cos(theta);
+         C[i][1] = r * sin(theta);
+         C[i][2] = -50;
+         theta += delta;
+    }
+  glBegin(GL_POLYGON);
+   for(i=0;i<n;i++)
+   {
+
+        glVertex3fv(C[i]);
+   }
+   glEnd();
+   glFlush();
+glutPostRedisplay();
+}
+
+
+void cloud()
+{
+  glPushMatrix();
+  if(flag==1)
+  glColor3f(0.663,0.663,0.663);
+  else
+  glColor3f(1.0,1.0,1.0);
+  glTranslatef(80.0,200.0,0.0);
+  glScalef(1.5,1.0,0.0);
+  circle();
+  glPopMatrix();
+
+  glPushMatrix();
+  //glColor3f(1.0,1.0,1.0);
+  glTranslatef(100.0,200.0,0.0);
+  glScalef(2.5,2.0,0.0);
+  circle();
+  glPopMatrix();
+
+  glPushMatrix();
+  //glColor3f(1.0,1.0,1.0);
+  glTranslatef(110.0,200.0,0.0);
+  glScalef(2.5,1.5,0.0);
+  circle();
+  glPopMatrix();
+  }
+
+
+void triangle1()
+{
+
+  glBegin(GL_TRIANGLES);
+  glColor3f(0.5,0.8,0.0);
+  glVertex3f(-80.0,0.0,0.0);
+  glColor3f(0.7,0.5,0.4);
+  glVertex3f(-40.0,50.0,0.0);
+  glColor3f(0.4,0.5,0.0);
+  glVertex3f(0.3,0.2,0.1);
+  glEnd();
+}
+
+void lightning()
+{	glLineWidth(5);
+	glBegin(GL_LINES);
+		glColor3f(1.0,1.0,1.0);
+		glVertex3f(-180,180.0,100.0);
+		glVertex3f(-150,150.0,50.0);
+		glVertex3f(-150.0,150.0,50.0);
+		glVertex3f(-160.0,160.0,50.0);
+		//glVertex3f(50.0,60.0,50.0);
+		//glVertex3f(75.0,75.0,50.0);
+		//glVertex3f(75.0,75.0,50.0);
+		//glVertex3f(20.0,35.0,50.0);
+	glEnd();
+
+	glLineWidth(1);
+
+
+}
+
+
+
+void mountain(){
+	 triangle1();
+
+	  glPushMatrix();
+	  glTranslatef(80.0,0.0,0.0);
+	  glScalef(1.5,1.0,0.0);
+	  triangle1();
+	  glPopMatrix();
+
+	  glPushMatrix();
+	  glTranslatef(240.0,0.0,0.0);
+	  glScalef(2.5,2.0,0.0);
+	  triangle1();
+	  glPopMatrix();
+
+	  glPushMatrix();
+	  glTranslatef(340.0,0.0,0.0);
+	  glScalef(1.5,1.0,0.0);
+	  triangle1();
+	  glPopMatrix();
+
+	  glPushMatrix();
+	  glTranslatef(-50.0,0.0,0.0);
+	  glScalef(2.8,1.5,0.0);
+	  triangle1();
+
+	  glPopMatrix();
+
+	  glPushMatrix();
+	  glTranslatef(-190.0,0.0,0.0);
+	  glScalef(1.8,1.5,0.0);
+	  triangle1();
+	  glPopMatrix();
+
+}
+
+void drops()
+{	glPointSize(3);
+	glBegin(GL_POINTS);
+	  glColor3f(0.0,-20.0,1.0);
+	  glVertex3f(0.0,-13.0,30.0);
+	   glVertex3f(20.0,-20.0,30.0);
+	   glVertex3f(65.0,-25.0,30.0);
+	   glVertex3f(25.0,-15.0,30.0);
+      glVertex3f(12.0,-50.0,30.0);
+      glVertex3f(-25.0,-46.0,30.0);
+      glVertex3f(-20.5,-6.0,30.0);
+      glEnd();
+}
+
+void drops1()
+{
+	glPointSize(3);
+	glBegin(GL_POINTS);
+		  glColor3f(0.0,-20.0,1.0);
+		  glVertex3f(90.0,-13.0,30.0);
+		   glVertex3f(105.0,-20.0,30.0);
+		   glVertex3f(95.0,-25.0,30.0);
+		   glVertex3f(115.0,-15.0,30.0);
+	      glVertex3f(95.0,-50.0,30.0);
+	      glVertex3f(85.0,-46.0,30.0);
+	      glVertex3f(120.5,-26.0,30.0);
+	glEnd();
+
+}
+
+
+
+void evapouration()
+{
+ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  //glLoadIdentity();
+
+  glPushMatrix();
+  glTranslatef(-210.0,220,0.0);
+  glScalef(1.5,2.5,0.0);
+  glColor3f(1.0,0.549,0.0);
+  circle();
+  glPopMatrix();
+
+  glPushMatrix();
+  glColor3f(0.0,0.0,0.0);
+  glTranslatef(dx+60,0.0,0.0);
+  glScalef(1.5,1.0,0.0);
+  boat();
+  glPopMatrix();
+
+  glPushMatrix();
+  glRotatef(180.0,0.0,1.0,0.0);
+  glTranslatef(dx+50,10.0,0.0);
+  boat();
+  glPopMatrix();
+
+  mountain();
+
+
+  //cloud4
+  glPushMatrix();
+  glTranslatef(-150,50,0.0);
+  cloud();
+  glPopMatrix();
+
+  //cloud3
+  glPushMatrix();
+  glTranslatef(-10+dx,15,0.0);
+  cloud();
+  glPopMatrix();
+
+  //cloud2
+  glPushMatrix();
+  glTranslatef(-250.0+dx,-25.0,0.0);
+  glScalef(1.8,1.5,0.0);
+  cloud();
+  glPopMatrix();
+
+  //cloud1
+  glPushMatrix();
+  glTranslatef(-290.0,-20.0,0.0);
+  glScalef(1.2,1.5,0.0);
+  cloud();
+  glPopMatrix();
+
+  	glPushMatrix();
+    glRotatef(30,0.0,1.0,1.0);
+    glTranslatef(-25.0+dx3,100-dx3,0.0);
+    //glScalef(0.0,2.5,0.0);
+    light();
+    glPopMatrix();
+
+
+
+
+  //sky
+  glBegin(GL_POLYGON);
+  glColor3f(1.0,0.647,0.0);
+  glVertex3f(-300.0,0.0,-50.0);
+  glColor3f(0.529,0.808,0.922);
+  glVertex3f(-300.0,300.0,-50.0);
+  glColor3f(0.529,0.808,0.922);
+  glVertex3f(300.0,300.0,-50.0);
+  glColor3f(1.0,0.647,0.0);
+  glVertex3f(300.0,0.0,-50.0);
+  glEnd();
+
+
+//water
+  glBegin(GL_POLYGON);
+  glColor3f(0.0,1.0,1.0);
+  glVertex3f(-300.0,0.0,-50.0);
+  glVertex3f(300.0,0.0,-50.0);
+  glColor3f(0.627,0.322,0.176);
+  glVertex3f(300.0,-300.0,-50.0);
+  glVertex3f(-300.0,-300.0,-50.0);
+glEnd();
+
+
+  glPushMatrix();
+  glTranslatef(0.0,dz,0.0);
+  drops();
+  glPopMatrix();
+
+
+
+
+
+  glFlush();
+  glutPostRedisplay();
+  glutSwapBuffers();
+}
+
+void condensation()
+{
+ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glLoadIdentity();
+
+  glPushMatrix();
+  glTranslatef(-10.0,200,0.0);
+  glScalef(1.5,2.5,0.0);
+  glColor3f(3.0,0.4,0.0);
+  circle();
+  glPopMatrix();
+
+  glPushMatrix();
+  glColor3f(0.0,0.0,0.0);
+  glTranslatef(dx+60,0.0,0.0);
+  glScalef(1.5,1.0,0.0);
+  //boat2();
+  glPopMatrix();
+
+
+  mountain();
+ //sky
+    glBegin(GL_POLYGON);
+    glColor3f(1.0,0.647,0.0);
+    glVertex3f(-300.0,0.0,-50.0);
+    glColor3f(0.529,0.808,0.922);
+    glVertex3f(-300.0,300.0,-50.0);
+    glColor3f(0.529,0.808,0.922);
+    glVertex3f(300.0,300.0,-50.0);
+    glColor3f(1.0,0.647,0.0);
+    glVertex3f(300.0,0.0,-50.0);
+    glEnd();
+
+
+  //water
+    glBegin(GL_POLYGON);
+    glColor3f(0.0,1.0,1.0);
+    glVertex3f(-300.0,0.0,-50.0);
+    glVertex3f(300.0,0.0,-50.0);
+    glColor3f(0.627,0.322,0.176);
+    glVertex3f(300.0,-300.0,-50.0);
+    glVertex3f(-300.0,-300.0,-50.0);
+  glEnd();
+
+  glPushMatrix();
+  glTranslatef(0.0,130+dx2,0.0);
+  drops1();
+  glPopMatrix();
+
+  glPushMatrix();
+    glTranslatef(-200,130+dx2,0.0);
+    drops1();
+    glPopMatrix();
+
+  if(dx2<=100)
+	  dx2=dx2+0.05;
+  else
+  {	  dx2=dx2+500;
+  	  	  glPushMatrix();
+         glTranslatef(0.0+dx4,15,0.0);
+         cloud();
+         dx4=dx4+0.05;
+         glPopMatrix();
+
+      glPushMatrix();
+       glTranslatef(-200+dx4,15,0.0);
+       cloud();
+       dx4=dx4+0.05;
+       glPopMatrix();
+
+  }
+
+
+  glFlush();
+  glutPostRedisplay();
+  glutSwapBuffers();
+}
+
+void precipitation()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	  glLoadIdentity();
+
+
+
+	 mountain();
+	  //cloud4
+	  glPushMatrix();
+	  glTranslatef(70,10,0.0);
+	  cloud();
+	  glPopMatrix();
+
+	  //cloud3
+	  glPushMatrix();
+	  glTranslatef(-10-dx1,15,0.0);
+	  cloud();
+	  glPopMatrix();
+
+	  //cloud2
+	  glPushMatrix();
+	    glTranslatef(-300.0+dx1,-75.0,0.0);
+	    glScalef(1.8,1.5,0.0);
+	    cloud();
+	    glPopMatrix();
+
+	  //cloud1
+	  glPushMatrix();
+	  glTranslatef(-290.0,-20.0,0.0);
+	  glScalef(1.2,1.5,0.0);
+	  cloud();
+	  glPopMatrix();
+
+
+	  if(dx1<=70)
+	      	dx1=dx1+0.05;
+	      else{
+
+	       glPushMatrix();
+	       glRotatef(-30.0,0.0,1.0,1.0);
+	       glTranslatef(100.0,50.0,0.0);
+	      // lightning();
+	       glPopMatrix();
+	      	rain();
+	      }
+
+
+
+	  //sky
+	  glBegin(GL_POLYGON);
+
+	glColor3f(0.529,0.808,0.902);
+	  glVertex3f(-300.0,0.0,-50.0);
+	glColor3f(0.412,0.412,0.412);
+	  glVertex3f(-300.0,300.0,-50.0);
+	  //glColor3f(0.529,0.808,0.922);
+	  glVertex3f(300.0,300.0,-50.0);
+	glColor3f(0.529,0.808,0.902);
+	  glVertex3f(300.0,0.0,-50.0);
+	glEnd();
+
+	glBegin(GL_POINTS);
+	glColor3f(0.627,0.322,0.176);
+	glVertex3f(-300.0,0.0,-50.0);
+	glVertex3f(300.0,0.0,-50.0);
+	glEnd();
+
+	//water
+	glBegin(GL_POLYGON);
+	  glColor3f(0.0,1.0,1.0);
+	  glVertex3f(-300.0,0.0,-50.0);
+	  glVertex3f(300.0,0.0,-50.0);
+	  glColor3f(0.627,0.322,0.176);
+	  glVertex3f(300.0,-300.0,-50.0);
+	  glVertex3f(-300.0,-300.0,-50.0);
+	glEnd();
+
+	  glFlush();
+	  glutPostRedisplay();
+	  glutSwapBuffers();
+  }
+
+
+void draw_text(float x,float y,float z,char *s)
+{
+	int i;
+	glRasterPos3f(x,y,z);
+	for(i=0;s[i]!=0;i++)
+	glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s[i]);
+}
+
+void display(void)
+{
+	glClearColor(0.0,0.0,0.0,0.0);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+	glColor3f(1.0,1.0,1.0);
+	draw_text(-130,240,0,"BANGALORE INSTITUTE OF TECHNOLOGY");
+	draw_text(-140,210,0,"Department Of Computer Science And Engineering");
+
+	draw_text(-100,150,0,"W			A			T			E				R					C			Y			C			L			E");
+	draw_text(-50,80,0,"SUBMITTED BY:");
+	draw_text(-35,50,0,"TANUJA A R");
+	draw_text(-35,20,0,"1BI14CS170");
+	//draw_text(-75,00,0,"6th Sem C Section:C3 Batch");
+	draw_text(-200,-130,0,"faculty incharge:");
+	draw_text(-200,-180,0,"Prof.D R Nagamani");
+	draw_text(-200,-210,0,"Associate Professor");
+	draw_text(-200,-230,0,"Dept.of CS&E,BIT");
+	draw_text(100,-180,0,"Prof.Shrithibaa A");
+	draw_text(100,-210,0,"Assistant Professor");
+	draw_text(100,-230,0,"Dept.of CS&E,BIT");
+	glColor3f(1.0,1.0,0.0);
+	draw_text(200,-290,0,"press i");
+
+glFlush();
+glutPostRedisplay();
+glutSwapBuffers();
+}
+
+
+void display1()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	  glLoadIdentity();
+	  	glColor3f(0.0,1.0,1.0);
+	    draw_text(-100,150,0,"W			A			T			E				R					C			Y			C			L			E");
+	  	glColor3f(1.0,0.0,1.0);
+	    draw_text(-200,100,0,"PRESS 1 FOR EVAPORATION");
+	  	draw_text(-200,50,0,"PRESS 2 FOR CONDENSATION");
+	  	draw_text(-200,00,0,"PRESS 3 FOR PRECIPITATION");
+	  	draw_text(-200,-50,0,"PRESS 4 FOR EXIT");
+
+	   glFlush();
+	  glutPostRedisplay();
+	  glutSwapBuffers();
+  }
+
+
+
+
+
+void mykeys(unsigned char key,int x,int y)
+{
+	if(key=='i'){
+		glutDisplayFunc(display1);
+	}
+	else if(key=='1'){
+
+	glutDisplayFunc(evapouration);
+	glutIdleFunc(IDLE);
+
+	}
+	else if(key=='2')
+	{
+		flag=1;
+		 glutDisplayFunc(condensation);
+		 glutIdleFunc(IDLE);
+    }
+	else if(key=='3')
+	{
+		flag=1; //to print clouds in grey
+		glutIdleFunc(IDLE);
+        glutDisplayFunc(precipitation);
+        rain();
+ }
+else exit(0);
+}
+
+void menu(int id)
+{
+switch(id)
+	{
+	case 1:{
+
+		    glutDisplayFunc(evapouration);
+			glutIdleFunc(IDLE);
+			break;
+		}
+
+	case 2:{
+		     flag=1;
+			 glutDisplayFunc(condensation);
+			 glutIdleFunc(IDLE);
+		     break;
+		   }
+
+	case 3:{
+		    flag=1; //to print clouds in grey
+			glutIdleFunc(IDLE);
+		    glutDisplayFunc(precipitation);
+		    break;
+		   }
+
+		default:
+		exit(0);
+	}
+}
+
+int main(int argc, char ** argv)
+{
+  glutInit(&argc,argv);
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+  glutInitWindowSize(1000,600);
+  glutInitWindowPosition(0.0,0.0);
+  glutCreateWindow("WATER CYCLE");
+ glutDisplayFunc(display);
+  glutKeyboardFunc(mykeys);
+glEnable(GL_DEPTH_TEST);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(-300.0, 300.0, -300.0, 300.0, -300.0,300.0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity ();
+  glClearColor (1.0, 1.0, 1.0, 1.0);
+glutCreateMenu(menu);
+  glutAddMenuEntry("Evapouration",1);
+  glutAddMenuEntry("Condensation",2);
+	glutAddMenuEntry("Precipitation",3);
+	glutAddMenuEntry("Exit",4);
+  glutAttachMenu(GLUT_RIGHT_BUTTON);
+glutMainLoop();
+return 0;
+}
+
+
+
+
+
+
+
